@@ -7,23 +7,22 @@ export default router;
 
 router.route("/register").post(requireBody(["username", "password"]), async (req, res) => {
   // add user to the db requesting username and password
-  const username = req.body.username;
-  const password = req.body.password;
+  const { username, password } = req.body;
   try {
     const user = await createUser(username, password);
-    const token = createToken(user.id);
-    res.send(token);
+    const token = createToken({ id: user.id });
+    res.status(201).send(token);
   } catch (err) {
+    console.error(err);
     res.status(500).send(err);
   }
 });
 
 router.route("/login").post(requireBody(["username", "password"]), async (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
+  const { username, password } = req.body;
   try {
     const user = await getUser(username, password);
-    const token = createToken(user.id);
+    const token = createToken({ id: user.id });
     res.send(token);
   } catch (err) {
     res.status(500).send(err);
