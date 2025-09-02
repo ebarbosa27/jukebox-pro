@@ -34,6 +34,7 @@ router
 router.param("id", async (req, res, next, id) => {
   const playlist = await getPlaylistById(id);
   if (!playlist) return res.status(404).send("Playlist not found.");
+  if (playlist.user_id !== req.user.id) return res.status(403).send("Forbidden");
 
   req.playlist = playlist;
   next();
