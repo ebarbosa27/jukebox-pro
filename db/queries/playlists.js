@@ -23,6 +23,19 @@ export async function getPlaylists() {
   return playlists;
 }
 
+export async function getAllUsersPlaylist(userId) {
+  const sql = `
+  Select 
+    * 
+  FROM 
+    playlists
+  WHERE
+    user_id = $1
+  `;
+  const { rows: playlists } = await db.query(sql, [userId]);
+  return playlists;
+}
+
 export async function getPlaylistById(id) {
   const sql = `
   SELECT *
