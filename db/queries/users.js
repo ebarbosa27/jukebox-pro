@@ -29,3 +29,13 @@ export async function getUser(username, password) {
 
   return user;
 }
+
+export async function getUserById(userId) {
+  const sql = `
+    SELECT * FROM users WHERE id = $1;
+    `;
+  const {
+    rows: [user],
+  } = await db.query(sql, [userId]);
+  return user;
+}
